@@ -1,0 +1,29 @@
+<div class="social-shell">
+  <header class="topbar"><a class="brand" href="/" aria-label="Example Social home"><span class="brand-mark">e</span><span>example <b>social</b></span></a><nav class="top-nav" aria-label="Main navigation"><a class="nav-active" href="/">Home</a><a href="/">Discover</a><span class="profile-avatar">B</span></nav></header>
+
+  <main class="feed-wrap">
+    <section class="feed-heading"><p class="eyebrow">COMMUNITY <span>•</span> QUESTION 09</p><h1>A little space for good thoughts.</h1><p>Share what matters and join the conversation.</p></section>
+
+    @if (errorMessage(); as message) { <div class="error-banner" role="alert">{{ message }}</div> }
+
+    <article class="post-card" aria-labelledby="post-title">
+      <header class="post-header"><span class="author-avatar">B</span><div class="author-details"><strong>Blend 285</strong><small>Community member <span>·</span> 2h</small></div><button class="more-button" type="button" aria-label="More post options">···</button></header>
+      <div class="post-copy"><h2 id="post-title">Change can start with one small step.</h2><p>A new perspective can turn an ordinary day into the beginning of something good. What is one little thing you want to make time for?</p></div>
+      <div class="post-art" role="img" aria-label="A cat and dog resting together in a sunny garden">
+        <svg viewBox="0 0 780 300" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f8d9b8"/><stop offset="1" stop-color="#fff0d9"/></linearGradient><linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b8d6a9"/><stop offset="1" stop-color="#739b72"/></linearGradient></defs>
+          <rect width="780" height="300" fill="url(#sky)"/><circle cx="624" cy="73" r="35" fill="#fff5c5" opacity=".88"/><path d="M0 193c126-38 217 12 340-18 136-34 252-6 440-50v175H0z" fill="#cfdaa9"/><path d="M0 223c151-36 242 7 379-10 133-17 251 12 401-26v113H0z" fill="url(#grass)"/><path d="M80 219c-6-60 18-79 44-100 29 18 40 56 28 93" fill="#6d9471"/><path d="M76 157c-2-31 10-47 27-58 19 17 26 38 19 63" fill="#81a87e"/><path d="M714 214c-4-57 16-78 39-97 24 20 30 52 18 94" fill="#5f8a68"/><g transform="translate(283 119)"><ellipse cx="77" cy="105" rx="65" ry="44" fill="#fbf3e4"/><circle cx="50" cy="62" r="35" fill="#d89a62"/><path d="M26 37 12 8l29 13M67 22 89 1l-1 36" fill="#d89a62"/><path d="M23 36 17 20l17 7M71 25 84 13l-1 17" fill="#f1c6a0"/><ellipse cx="39" cy="62" rx="3" ry="4" fill="#453b32"/><ellipse cx="63" cy="62" rx="3" ry="4" fill="#453b32"/><path d="M47 73q5 6 10 0" fill="none" stroke="#795647" stroke-width="2" stroke-linecap="round"/><path d="M24 66 3 61m22 12-21 3m67-10 19-6m-19 14 20 2" stroke="#795647" stroke-width="1.5" stroke-linecap="round"/><path d="M35 103q42 8 73-4" fill="none" stroke="#d89a62" stroke-width="10" stroke-linecap="round"/></g><g transform="translate(414 132)"><ellipse cx="81" cy="96" rx="69" ry="48" fill="#e9d0a8"/><circle cx="47" cy="60" r="35" fill="#b97b50"/><path d="M20 42Q5 5 25 18l28 19m8-1Q84 6 84 28l-7 25" fill="#b97b50"/><path d="M23 31q2-11 11-6l15 13m21 2 14-14q8-4 8 7l-17 20" fill="#dcae78"/><ellipse cx="37" cy="61" rx="3" ry="4" fill="#453b32"/><ellipse cx="58" cy="61" rx="3" ry="4" fill="#453b32"/><ellipse cx="48" cy="74" rx="8" ry="6" fill="#f0e1c8"/><path d="M41 75q7 10 14 0" fill="none" stroke="#795647" stroke-width="2" stroke-linecap="round"/><path d="M28 103q37 13 76-4" fill="none" stroke="#b97b50" stroke-width="12" stroke-linecap="round"/></g><g fill="#f9ead0" opacity=".8"><circle cx="190" cy="195" r="4"/><circle cx="602" cy="217" r="5"/><circle cx="231" cy="233" r="3"/><circle cx="548" cy="181" r="4"/></g>
+        </svg>
+      </div>
+      <div class="post-actions"><button type="button" aria-label="Like this post"><span aria-hidden="true">♡</span> Like</button><button type="button" aria-label="Comment on this post"><span aria-hidden="true">▱</span> Comment · {{ comments().length }}</button><span class="post-reaction"><i>♥</i> 24</span></div>
+
+      <section class="comments-section" aria-label="Comments">
+        <div class="composer"><span class="composer-avatar">B</span><form (ngSubmit)="addComment()"><label class="visually-hidden" for="comment-input">Write a comment</label><textarea id="comment-input" rows="1" maxlength="1000" [value]="draft()" (input)="updateDraft($event)" (keydown)="submitOnEnter($event)" placeholder="Write a comment as Blend 285…" aria-describedby="comment-help"></textarea><div class="composer-footer"><small id="comment-help">Press Enter to post · Shift + Enter for a new line</small><button class="post-button" type="submit" [disabled]="posting() || !draft().trim()">{{ posting() ? 'Posting…' : 'Post' }} <span aria-hidden="true">→</span></button></div></form></div>
+        @if (loading()) { <div class="comments-loading"><span class="spinner"></span> Loading comments…</div> }
+        @else if (comments().length === 0) { <p class="no-comments">Be the first to add a thoughtful comment.</p> }
+        @else { <div class="comment-list">@for (comment of comments(); track comment.id) { <article class="comment-row" [attr.data-comment-id]="comment.id"><span class="comment-avatar">B</span><div class="comment-bubble"><header><strong class="comment-author">{{ comment.authorName }}</strong><time>{{ commentTime(comment) }}</time></header><p>{{ comment.text }}</p></div></article> }</div> }
+      </section>
+    </article>
+    <footer class="page-footer">A kind word can change a day. <span>♥</span></footer>
+  </main>
+</div>
